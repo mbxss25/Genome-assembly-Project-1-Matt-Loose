@@ -1,8 +1,52 @@
 # Project-1
 
-##Nanoplot (for long read sequencing data and alignments.)
+Introduction: Group generated the strains of micro-organisms, however various genetic changes to the genomes were done but location of the changes were unknown. The long read data was mostly present. In order to know the changes assemblies were required. This respository consist of the codes for generating the assemblies from the long and short reads, along with the quality analysis on them.
 
-#installation of nanoplot using srun command 
+Code are for generating:
+-Short read assembly
+-long read assembly
+-A hybrid short and long read assembly
+
+Following codes for Quality control of assemblies-
+BUSCO
+GENOVI
+————————————————————————————————————————-------------------------------------------------------------------------------------------------------------------------------------------
+This repository is for the samples allocated to group 6. i.e Group 6-sample 6 - illuminate S6 - Nanopore Barcode 06.
+
+The data is provided in HPC at-
+
+/workhere/students_2023/Matt_resources
+
+-subfolders 
+short reads (illumina data)
+Long reads (Nanoporedata)
+——————————————————————————————————————————————————---------------------------------------------------------------------------------------------------------------------------------
+#installation and activation of nanoplot in conda enviroment
+conda create –n nanoplot_test –c bioconda nanoplot
+
+#!/bin/bash
+
+
+#SBATCH --job-name=grp6_nanoplot
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem=8g
+#SBATCH --time=02:00:00
+#SBATCH --output=/shared/home/mbxss25/slurm-%x-%j.out
+
+source $HOME/.bash_profile
+
+#activate conda environment
+conda activate /shared/conda/shared
+
+# your command
+NanoPlot
+
+
+conda deactivate
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 #----------------------------------------------------------------------------------------#
 
@@ -34,36 +78,8 @@ NanoPlot --fastq /workhere/students_2023/group6/nanopore_long/* \
 #deactivte conda env
 conda deactivate
 #----------------------------------------------------------------------------------------#
-
-#fails long reads
-
-#!/bin/bash
-
-#SBATCH --job-name=fastq_fails_long
-#SBATCH --partition=hpc
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --mem=8g
-#SBATCH --time=02:00:00
-#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out    #enter your username here
-#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
-
-source $HOME/.bash_profile
-
-#activate conda env
-conda activate /shared/conda/shared
-
-#run nanoplot on long reads
-NanoPlot --fastq /workhere/students_2023/group6/fastq_fails_long/* \
-         --threads 8 \
-         --plots kde dot \
-         -o /workhere/students_2023/group6/nano_qc_long_fails
-
-#deactivate conda env
-conda deactivate
-#----------------------------------------------------------------------------------------#
-
-#short reads (R1 and R2)
+#nanoplot short reads (R1 and R2)
+#the 
 
 #!/bin/bash
 
@@ -95,6 +111,37 @@ NanoPlot --fastq /workhere/students_2023/group6/illumina_short/R2_files/*.fastq.
 
 #deactivate conda env
 conda deactivate
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#fails long reads
+
+#!/bin/bash
+
+#SBATCH --job-name=fastq_fails_long
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem=8g
+#SBATCH --time=02:00:00
+#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out    #enter your username here
+#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
+
+source $HOME/.bash_profile
+
+#activate conda env
+conda activate /shared/conda/shared
+
+#run nanoplot on long reads
+NanoPlot --fastq /workhere/students_2023/group6/fastq_fails_long/* \
+         --threads 8 \
+         --plots kde dot \
+         -o /workhere/students_2023/group6/nano_qc_long_fails
+
+#deactivate conda env
+conda deactivate
+#----------------------------------------------------------------------------------------#
+
+
 #----------------------------------------------------------------------------------------#
 
 ##Merging reads
