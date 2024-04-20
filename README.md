@@ -10,7 +10,7 @@ Code are for generating:
 Following codes for Quality control of assemblies-
 BUSCO
 GENOVI
-————————————————————————————————————————-------------------------------------------------------------------------------------------------------------------------------------------
+#————————————————————————————————————————--------------------------------------------------------------------------------#
 This repository is for the samples allocated to group 6. i.e Group 6-sample 6 - illuminate S6 - Nanopore Barcode 06.
 
 The data is provided in HPC at-
@@ -20,7 +20,7 @@ The data is provided in HPC at-
 -subfolders 
 short reads (illumina data)
 Long reads (Nanoporedata)
-——————————————————————————————————————————————————---------------------------------------------------------------------------------------------------------------------------------
+#——————————————————————————————————————————————————-------------------------------------------------------------------------#
 #installation and activation of nanoplot in conda enviroment
 conda create –n nanoplot_test –c bioconda nanoplot
 
@@ -33,7 +33,7 @@ conda create –n nanoplot_test –c bioconda nanoplot
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=8g
 #SBATCH --time=02:00:00
-#SBATCH --output=/shared/home/mbxss25/slurm-%x-%j.out
+#SBATCH --output=/shared/home/mbxss25/slurm-%x-%j.out  #with your username
 
 source $HOME/.bash_profile
 
@@ -45,41 +45,13 @@ NanoPlot
 
 
 conda deactivate
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+#The expected result is creating the conda environment, installation and activation of the nanoplot within the conda environment.
+#-------------------------------------------------------------------------------------------------------------------------------#
 
-#----------------------------------------------------------------------------------------#
+#Using nanoplot for checking the samples provided. The following code is for the illumina short reads provided in the dataset. The samples are differentiated between R1 and R2 as Forward and reverse. 
 
-#pass long reads
-
-#!/bin/bash
-
-
-#SBATCH --job-name=fastq_pass_long
-#SBATCH --partition=hpc
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --mem=8g
-#SBATCH --time=02:00:00
-#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out	   #enter your username here
-#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err
-
-source $HOME/.bash_profile
-
-#activate conda env
-conda activate /shared/conda/shared
-
-#run nanoplot on long reads (pass)
-NanoPlot --fastq /workhere/students_2023/group6/nanopore_long/* \
-         --threads 8 \
-         --plots kde dot \
-         -o /workhere/students_2023/group6/nano_qc_long_pass
-
-#deactivte conda env
-conda deactivate
-#----------------------------------------------------------------------------------------#
-#nanoplot short reads (R1 and R2)
-#the 
+#nanoplot short reads (R1 and R2) 
 
 #!/bin/bash
 
@@ -112,7 +84,40 @@ NanoPlot --fastq /workhere/students_2023/group6/illumina_short/R2_files/*.fastq.
 #deactivate conda env
 conda deactivate
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#The expected result running this code is 
+#----------------------------------------------------------------------------------------#
+
+#pass long reads
+
+#!/bin/bash
+
+
+#SBATCH --job-name=fastq_pass_long
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem=8g
+#SBATCH --time=02:00:00
+#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out	   #enter your username here
+#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err      #enter your username here
+
+source $HOME/.bash_profile
+
+#activate conda env
+conda activate /shared/conda/shared
+
+#run nanoplot on long reads (pass)
+NanoPlot --fastq /workhere/students_2023/group6/nanopore_long/* \
+         --threads 8 \
+         --plots kde dot \
+         -o /workhere/students_2023/group6/nano_qc_long_pass
+
+#deactivte conda env
+conda deactivate
+
+#The expected result running this code is 
+#----------------------------------------------------------------------------------------#
+
 #fails long reads
 
 #!/bin/bash
@@ -124,7 +129,7 @@ conda deactivate
 #SBATCH --mem=8g
 #SBATCH --time=02:00:00
 #SBATCH --output=/shared/home/payya4/slurm-%x-%j.out    #enter your username here
-#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
+#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err     #enter your username here
 
 source $HOME/.bash_profile
 
@@ -139,9 +144,8 @@ NanoPlot --fastq /workhere/students_2023/group6/fastq_fails_long/* \
 
 #deactivate conda env
 conda deactivate
-#----------------------------------------------------------------------------------------#
 
-
+#The expected result running this code is 
 #----------------------------------------------------------------------------------------#
 
 ##Merging reads
@@ -415,6 +419,134 @@ unicycler -1 /workhere/students_2023/group6/merged_R1_short.fastq.gz \
 -t 8 -o /workhere/students_2023/group6/unicycler_results/unicycler_hybrid_pf
 
 #check unicycler.log tail to see if assembly has completed
+#deactivte conda env
+conda deactivate
+
+#----------------------------------------------------------------------------------------#
+#new readw
+barcode 01 and 02
+#!/bin/bash
+
+#SBATCH --job-name=nanoplot_01_02
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem=8g
+#SBATCH --time=02:00:00
+#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out
+#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err
+
+
+
+source $HOME/.bash_profile
+
+
+#activate conda env
+conda activate /shared/conda/shared
+
+
+#run nanoplot on barcode 01
+NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode01/*fastq \
+--threads 8 \
+--plots kde dot \
+-o /workhere/students_2023/group6/new_reads/nanoplot_results/barcode01_nanoplot
+
+
+#run nanoplot on barcode02
+NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode02_/* \
+--threads 8 \
+--plots kde dot \
+-o /workhere/students_2023/group6/new_reads/nanoplot_results/barcode02_nanoplot
+
+
+#deactivte conda
+conda deactivate
+
+#----------------------------------------------------------------------------------------#
+
+barcode 06
+
+#!/bin/bash
+
+
+#SBATCH --job-name=nanoplot_b6
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem=8g
+#SBATCH --time=02:00:00
+#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out	  #enter your username here
+#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
+
+source $HOME/.bash_profile
+
+#activate conda env
+conda activate /shared/conda/shared
+
+#run nanoplot on long reads (pass)
+NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode06/* \
+         --threads 8 \
+         --plots kde dot \
+         -o /workhere/students_2023/group6/new_reads/nanoplot_results/barcode6_nanoplot
+
+#deactivte conda env
+conda deactivate
+
+#----------------------------------------------------------------------------------------#
+#barcode 09
+
+#!/bin/bash
+
+
+#SBATCH --job-name=nanoplot_b9
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem=8g
+#SBATCH --time=02:00:00
+#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out	  #enter your username here
+#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
+
+source $HOME/.bash_profile
+
+#activate conda env
+conda activate /shared/conda/shared
+
+#run nanoplot on long reads (pass)
+NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode09/* \
+         --threads 8 \
+         --plots kde dot \
+         -o /workhere/students_2023/group6/new_reads/nanoplot_results/barcode09_nanoplot
+
+#deactivte conda env
+conda deactivate
+
+#----------------------------------------------------------------------------------------#
+#barcode 10
+
+#!/bin/bash
+
+
+#SBATCH --job-name=nanoplot_b10
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem=8g
+#SBATCH --time=02:00:00
+#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out	  #enter your username here
+#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
+
+source $HOME/.bash_profile
+
+#activate conda env
+conda activate /shared/conda/shared
+
+#run nanoplot on long reads (pass)
+NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode10/* \
+         --threads 8 \
+         --plots kde dot \
+         -o /workhere/students_2023/group6/new_reads/nanoplot_results/barcode10_nanoplot
+
 #deactivte conda env
 conda deactivate
 
