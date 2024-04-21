@@ -189,7 +189,7 @@ cat /workhere/students_2023/group6/illumina_short/R2_files/* > \
 
 #----------------------------------------------------------------------------------------#
 
-##Minimap (for assembly)
+##Minimap (for long assembly)
 
 #long reads pass
 
@@ -294,36 +294,6 @@ awk '/^S/{print ">"$2"\n"$3}' /workhere/students_2023/group6/minimap_results/min
 # Deactivate conda environment
 conda deactivate
 #----------------------------------------------------------------------------------------#
-
-##Unicycler (hybrid assembly)
-
-#unicycler long reads
-
-#!/bin/bash
-
-#SBATCH --job-name=unicycler_long
-#SBATCH --partition=hpc
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=8
-#SBATCH --mem=30G
-#SBATCH --time=48:00:00
-#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out
-#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err
-
-# Activate conda environment
-source $HOME/.bash_profile
-conda activate /shared/conda/shared
-
-# Assembly with Unicycler (long - pass)
-unicycler -t 8 \
--l /workhere/students_2023/group6/merged_long_reads_pass.fastq.gz \
--o /workhere/students_2023/group6/unicycler_long_pass
-
-
-# Deactivate conda environment
-conda deactivate
-#----------------------------------------------------------------------------------------#
-
 #Unicycler short reads (merged R1 and R2)
 
 #!/bin/bash
@@ -354,6 +324,36 @@ unicycler -t 8 \
 conda deactivate
 #----------------------------------------------------------------------------------------#
 
+#unicycler long reads
+
+#!/bin/bash
+
+#SBATCH --job-name=unicycler_long
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=8
+#SBATCH --mem=30G
+#SBATCH --time=48:00:00
+#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out
+#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err
+
+# Activate conda environment
+source $HOME/.bash_profile
+conda activate /shared/conda/shared
+
+# Assembly with Unicycler (long - pass)
+unicycler -t 8 \
+-l /workhere/students_2023/group6/merged_long_reads_pass.fastq.gz \
+-o /workhere/students_2023/group6/unicycler_long_pass
+
+
+# Deactivate conda environment
+conda deactivate
+
+#----------------------------------------------------------------------------------------#
+
+##Unicycler (hybrid assembly)
+
 #Unicycler hybrid pass
 
 #!/bin/bash
@@ -375,7 +375,6 @@ source $HOME/.bash_profile
 
 #activate conda env
 conda activate /shared/conda/shared
-
 
 
 #run unicycler hybrid assembly (pass only)
@@ -419,134 +418,6 @@ unicycler -1 /workhere/students_2023/group6/merged_R1_short.fastq.gz \
 -t 8 -o /workhere/students_2023/group6/unicycler_results/unicycler_hybrid_pf
 
 #check unicycler.log tail to see if assembly has completed
-#deactivte conda env
-conda deactivate
-
-#----------------------------------------------------------------------------------------#
-#new readw
-barcode 01 and 02
-#!/bin/bash
-
-#SBATCH --job-name=nanoplot_01_02
-#SBATCH --partition=hpc
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --mem=8g
-#SBATCH --time=02:00:00
-#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out
-#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err
-
-
-
-source $HOME/.bash_profile
-
-
-#activate conda env
-conda activate /shared/conda/shared
-
-
-#run nanoplot on barcode 01
-NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode01/*fastq \
---threads 8 \
---plots kde dot \
--o /workhere/students_2023/group6/new_reads/nanoplot_results/barcode01_nanoplot
-
-
-#run nanoplot on barcode02
-NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode02_/* \
---threads 8 \
---plots kde dot \
--o /workhere/students_2023/group6/new_reads/nanoplot_results/barcode02_nanoplot
-
-
-#deactivte conda
-conda deactivate
-
-#----------------------------------------------------------------------------------------#
-
-barcode 06
-
-#!/bin/bash
-
-
-#SBATCH --job-name=nanoplot_b6
-#SBATCH --partition=hpc
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --mem=8g
-#SBATCH --time=02:00:00
-#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out	  #enter your username here
-#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
-
-source $HOME/.bash_profile
-
-#activate conda env
-conda activate /shared/conda/shared
-
-#run nanoplot on long reads (pass)
-NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode06/* \
-         --threads 8 \
-         --plots kde dot \
-         -o /workhere/students_2023/group6/new_reads/nanoplot_results/barcode6_nanoplot
-
-#deactivte conda env
-conda deactivate
-
-#----------------------------------------------------------------------------------------#
-#barcode 09
-
-#!/bin/bash
-
-
-#SBATCH --job-name=nanoplot_b9
-#SBATCH --partition=hpc
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --mem=8g
-#SBATCH --time=02:00:00
-#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out	  #enter your username here
-#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
-
-source $HOME/.bash_profile
-
-#activate conda env
-conda activate /shared/conda/shared
-
-#run nanoplot on long reads (pass)
-NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode09/* \
-         --threads 8 \
-         --plots kde dot \
-         -o /workhere/students_2023/group6/new_reads/nanoplot_results/barcode09_nanoplot
-
-#deactivte conda env
-conda deactivate
-
-#----------------------------------------------------------------------------------------#
-#barcode 10
-
-#!/bin/bash
-
-
-#SBATCH --job-name=nanoplot_b10
-#SBATCH --partition=hpc
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --mem=8g
-#SBATCH --time=02:00:00
-#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out	  #enter your username here
-#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
-
-source $HOME/.bash_profile
-
-#activate conda env
-conda activate /shared/conda/shared
-
-#run nanoplot on long reads (pass)
-NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode10/* \
-         --threads 8 \
-         --plots kde dot \
-         -o /workhere/students_2023/group6/new_reads/nanoplot_results/barcode10_nanoplot
-
 #deactivte conda env
 conda deactivate
 
@@ -751,3 +622,174 @@ busco \
 # Deactivate conda environment
 conda deactivate
 #----------------------------------------------------------------------------------------#
+
+
+
+#----------------------------------------------------------------------------------------#
+#new reads
+
+barcode 01 and 02
+#!/bin/bash
+
+#SBATCH --job-name=nanoplot_01_02
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem=8g
+#SBATCH --time=02:00:00
+#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out
+#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err
+
+
+
+source $HOME/.bash_profile
+
+
+#activate conda env
+conda activate /shared/conda/shared
+
+
+#run nanoplot on barcode 01
+NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode01/*fastq \
+--threads 8 \
+--plots kde dot \
+-o /workhere/students_2023/group6/new_reads/nanoplot_results/barcode01_nanoplot
+
+
+#run nanoplot on barcode02
+NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode02_/* \
+--threads 8 \
+--plots kde dot \
+-o /workhere/students_2023/group6/new_reads/nanoplot_results/barcode02_nanoplot
+
+
+#deactivte conda
+conda deactivate
+
+#----------------------------------------------------------------------------------------#
+
+barcode 06
+
+#!/bin/bash
+
+
+#SBATCH --job-name=nanoplot_b6
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem=8g
+#SBATCH --time=02:00:00
+#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out	  #enter your username here
+#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
+
+source $HOME/.bash_profile
+
+#activate conda env
+conda activate /shared/conda/shared
+
+#run nanoplot on long reads (pass)
+NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode06/* \
+         --threads 8 \
+         --plots kde dot \
+         -o /workhere/students_2023/group6/new_reads/nanoplot_results/barcode6_nanoplot
+
+#deactivte conda env
+conda deactivate
+
+#----------------------------------------------------------------------------------------#
+#barcode 09
+
+#!/bin/bash
+
+
+#SBATCH --job-name=nanoplot_b9
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem=8g
+#SBATCH --time=02:00:00
+#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out	  #enter your username here
+#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
+
+source $HOME/.bash_profile
+
+#activate conda env
+conda activate /shared/conda/shared
+
+#run nanoplot on long reads (pass)
+NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode09/* \
+         --threads 8 \
+         --plots kde dot \
+         -o /workhere/students_2023/group6/new_reads/nanoplot_results/barcode09_nanoplot
+
+#deactivte conda env
+conda deactivate
+
+#----------------------------------------------------------------------------------------#
+#barcode 10
+
+#!/bin/bash
+
+
+#SBATCH --job-name=nanoplot_b10
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem=8g
+#SBATCH --time=02:00:00
+#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out	  #enter your username here
+#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
+
+source $HOME/.bash_profile
+
+#activate conda env
+conda activate /shared/conda/shared
+
+#run nanoplot on long reads (pass)
+NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode10/* \
+         --threads 8 \
+         --plots kde dot \
+         -o /workhere/students_2023/group6/new_reads/nanoplot_results/barcode10_nanoplot
+
+#deactivte conda env
+conda deactivate
+
+#----------------------------------------------------------------------------------------#
+##Merging reads
+
+#!/bin/bash
+
+#SBATCH --job-name=merged_reads
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem=8g
+#SBATCH --time=02:00:00
+#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out    #enter your username here
+#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err     #enter your username here
+
+
+# Merge barcode01 reads 
+cat /workhere/students_2023/group6/raw_reads/raw_reads/barcode01/* > \
+/workhere/students_2023/group6/raw_reads/merged_barcode01.fastq.gz 
+
+# Merge barcode02 reads 
+cat /workhere/students_2023/group6/raw_reads/raw_reads/barcode02/* > \
+/workhere/students_2023/group6/raw_reads/merged_barcode02.fastq.gz  
+
+
+# Merge barcode06 reads 
+cat /workhere/students_2023/group6/raw_reads/raw_reads/barcode06/* > \
+/workhere/students_2023/group6/raw_reads/merged_barcode06_pass.fastq.gz
+
+
+# Merge barcode09 reads 
+cat /workhere/students_2023/group6/raw_reads/raw_reads/barcode09/* > \
+/workhere/students_2023/group6/merged_barcode09_pass.fastq.gz
+
+
+# Merge barcode10 
+cat /workhere/students_2023/group6/raw_reads/raw_reads/barcode10/* /workhere/students_2023/group6/fastq_fails_long/* > \
+/workhere/students_2023/group6/merged_barcode10_pass.fastq.gz
+
+
