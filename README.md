@@ -1,4 +1,4 @@
-#Project1 - group 6 - Sequence assemblies and quality control - Latt Loose. 
+#Project1 - group 6 - Sequence assemblies and quality control - Matt Loose. 
 
 #Introduction: Group generated the strains of micro-organisms, however various genetic changes to the genomes were done but location of the changes were unknown. The long read data was mostly present. In order to know the changes assemblies were required. This respository consist of the codes for generating the assemblies from the long and short reads, along with the quality analysis on them.
 
@@ -12,6 +12,9 @@ BUSCO
 QUAST
 
 #Following codes for visualization and annotation of assemblies.
+-Flye
+-Prokka
+-Genovi
 #————————————————————————————————————————--------------------------------------------------------------------------------#
 #This repository is for the samples allocated to group 6. i.e Group 6-sample 6 - illuminate S6 - Nanopore Barcode 06.
 
@@ -28,6 +31,10 @@ Long reads (Nanoporedata)
 #——————————————————————————————————————————————————-------------------------------------------------------------------------#
 #installation and activation of nanoplot in conda enviroment
 conda create –n nanoplot_test –c bioconda nanoplot
+
+conda install -c bioconda nanoplot
+#recommanded installtion using sbatch
+
 
 #!/bin/bash
 
@@ -450,6 +457,10 @@ conda deactivate
 ##Quast (quality assesement of the assembly)
 #The script here are designed to conduct quality assessment of  genomic assemblies using QUAST (Quality Assessment Tool for Genome Assemblies), which evaluates genome assemblies by computing various metrics, such as the number of contigs, the total length of the genome, N50, L50, and others. QUAST can also align assembled sequences to a reference genome if provided, which offers a deeper understanding of assembly quality, such as misassemblies, mismatches, and indels.
 
+#installation
+conda install -c bioconda quast
+#recommanded installtion using sbatch
+
 #QUAST for unicycler assemblies
 
 #!/bin/bash
@@ -571,6 +582,10 @@ conda deactivate
 #------------------------------------------------------------------------------------------------------------------------------------------------#
 ##Busco (for analysis)
 The scripts written are to perform BUSCO (Benchmarking Universal Single-Copy Orthologs) analysis on genomic assemblies. These analyses are crucial for evaluating the quality of these assemblies by checking the completeness in terms of expected conserved orthologous genes. The scripts are organized for hybrid assemblies (both successful and failed), short-read assemblies, long-read assemblies, and assemblies got from Minimap2 alignments.
+
+#installation
+conda install -c bioconda busco
+#recommanded installtion using sbatch
 
 #hybrid assemblies 
 
@@ -1023,6 +1038,11 @@ conda deactivate
 #------------------------------------------------------------------------------------------------------------------------------------------------#
 #The scripts wriiten is for genome assembly using Flye, which is a de novo assembler for single-molecule sequencing reads from technologies Nanopore and PacBio. Flye specializes in creating high-quality assemblies from long reads, making it particularly suitable for complex genome projects. 
 
+#installation
+conda install -c bioconda flye
+#recommanded installtion using sbatch
+
+
 #for sample 01 and 02
 
 #!/bin/bash
@@ -1088,7 +1108,11 @@ conda deactivate
 #expected outcomes: Assembly Directories: Each specified output directory (flye_result/barcode_xx) will contain the Flye assembly outputs, which include: assembly.fasta: The primary output containing the assembled sequences. assembly_info.txt: Provides details about the contigs, including their lengths and whether they are circular. flye.log: Contains logs of the assembly process, useful for debugging and performance assessment.
 #------------------------------------------------------------------------------------------------------------------------------------------------#
 #The script written is for Prokka, a rapid prokaryotic genome annotation tool, to annotate genomic assemblies associated with different barcodes.Used specifically for barcode06, barcode10, and barcode09. 
- 
+
+#installation
+conda install -c bioconda prokka
+
+#recommanded installtion using sbatch
 
 #!/bin/bash
 
@@ -1136,6 +1160,11 @@ conda deactivate
 
 #------------------------------------------------------------------------------------------------------------------------------------------------#
 #The script written is to run Genovi, a visualization tool for genome assemblies and annotations. Genovi converts genome annotation files, typically in GenBank format, into visual representations that help researchers quickly assess the structure and content of their assemblies. This particular script runs Genovi on Prokka-generated GenBank files for different barcoded samples.
+
+#installation
+conda install -c bioconda genovi
+
+#recommanded installtion using sbatch
 
 #!/bin/bash
 
