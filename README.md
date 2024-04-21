@@ -4,3 +4,4 @@ For the visualization and annotation we used flye, prokka and genovi.
 
 group 6 made the repository for the codes we utilized for the sample set of 6.
 
+The codes are wriiten in the respository with file name "final"
