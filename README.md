@@ -237,7 +237,7 @@ minimap2 -t 8 -x ava-ont /workhere/students_2023/group6/merged_long_reads_pass.f
 # Deactivate conda environment
 conda deactivate
 #------------------------------------------------------------------------------------------------------------------------------------------------#
-#reads pass
+
 
 #!/bin/bash
 
@@ -247,8 +247,8 @@ conda deactivate
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=24:00:00
-#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out
-#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
+#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out                  #replace "payya4" with your username
+#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err                   #replace "payya4" with your username
 
 
 
@@ -281,8 +281,8 @@ conda deactivate
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=24:00:00
-#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out
-#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
+#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out                  #replace "payya4" with your username
+#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err                  #replace "payya4" with your username
 
 
 
@@ -307,6 +307,9 @@ conda deactivate
 
 #The expected put of these codes are to give Compressed PAF files containing read overlap information, GFA files describing the assembly graphs, FASTA files containing the assembled sequences ready for downstream genomic analysis tasks such as annotation, variant detection, or comparative genomics.
 #------------------------------------------------------------------------------------------------------------------------------------------------#
+#Unicycler
+The below provided scripts are to run Unicycler, an assembly pipeline which combines the accuracy of short-read assembly with the contiguity of long-read assembly. It is particularly effective for assembling bacterial genomes, which are typically smaller and less complex than eukaryotic genomes. Unicycler uses both short-read data (typically Illumina) for accuracy and long-read data (Nanopore) to bridge gaps that are typically problematic for short-read assemblers.
+
 #Unicycler short reads (merged R1 and R2)
 
 #!/bin/bash
@@ -317,9 +320,9 @@ conda deactivate
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=48:00:00
-#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out
-#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
-
+#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out                  #replace "payya4" with your username
+#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err                  #replace "payya4" with your username
+         
 
 # Activate conda environment
 source $HOME/.bash_profile
@@ -335,7 +338,9 @@ unicycler -t 8 \
 
 # Deactivate conda environment
 conda deactivate
-#----------------------------------------------------------------------------------------#
+
+#Expected result: This will contain the final assembly in various formats including FASTA files of the assembled contigs, a GFA file of the assembly graph, and logs detailing the assembly process.
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 
 #unicycler long reads
 
@@ -347,8 +352,8 @@ conda deactivate
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=48:00:00
-#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out
-#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err
+#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out                  #replace "mbxjk6" with your username
+#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err                  #replace "mbxjk6" with your username
 
 # Activate conda environment
 source $HOME/.bash_profile
@@ -363,7 +368,8 @@ unicycler -t 8 \
 # Deactivate conda environment
 conda deactivate
 
-#----------------------------------------------------------------------------------------#
+#expected result: files similar to the short-reads output, containing the long-read assembly results.
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 
 ##Unicycler (hybrid assembly)
 
@@ -378,8 +384,8 @@ conda deactivate
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=48:00:00
-#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out
-#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err
+#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out                   #replace "mbxjk6" with your username
+#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err                  #replace "mbxjk6" with your username
 
 
 echo "the job name is: $JOB_NAME_ID"
@@ -400,7 +406,9 @@ unicycler -1 /workhere/students_2023/group6/merged_R1_short.fastq.gz \
 #check unicycler.log tail to see if assembly has completed
 #deactivte conda env
 conda deactivate
-#----------------------------------------------------------------------------------------#
+
+#expected result: will both merged short-read and long-read data to create a highly accurate and contiguous assembly.
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 
 #Unicycler hybrid pass and fail
 
@@ -413,8 +421,8 @@ conda deactivate
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=72:00:00
-#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out
-#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err
+#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out                  #replace "mbxjk6" with your username
+#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err                  #replace "mbxjk6" with your username
 
 
 echo "the job name is: $JOB_NAME_ID"
@@ -434,11 +442,15 @@ unicycler -1 /workhere/students_2023/group6/merged_R1_short.fastq.gz \
 #deactivte conda env
 conda deactivate
 
-#----------------------------------------------------------------------------------------#
-No code for bandage
-#----------------------------------------------------------------------------------------#
+#expected output: this will both "pass" and "fail" long-read data, potentially adding more depth and coverage but also introducing more noise.
+#------------------------------------------------------------------------------------------------------------------------------------------------#
+#No code for bandage
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 
 ##Quast (quality assesement of the assembly)
+#The script here are designed to conduct quality assessment of  genomic assemblies using QUAST (Quality Assessment Tool for Genome Assemblies), which evaluates genome assemblies by computing various metrics, such as the number of contigs, the total length of the genome, N50, L50, and others. QUAST can also align assembled sequences to a reference genome if provided, which offers a deeper understanding of assembly quality, such as misassemblies, mismatches, and indels.
+
+#QUAST for unicycler assemblies
 
 #!/bin/bash
 
@@ -447,17 +459,14 @@ No code for bandage
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
-#SBATCH --time=24:00:00
-#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out
-#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err
+#SBATCH --time=24:00:00         
+#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out         #replace "payya4" with your username
+#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err         #replace "payya4" with your username
 
 
 # Activate conda environment with QUAST installed
 source $HOME/.bash_profile
 conda activate /shared/conda/shared
-
-
-#QUAST unicycler
 
 # QUAST for short-read assembly
 python /shared/conda/shared/bin/quast \
@@ -496,7 +505,7 @@ python /shared/conda/shared/bin/quast \
 #/workhere/students_2023/group6/unicycler_results/unicycler_hybrid_pass/ADD MISSING PATHWAY
 
 
-#QUAST minimap
+#QUAST for minimap assemblies
 
 # QUAST for minimap long-read (pass and fail)
 python /shared/conda/shared/bin/quast \
@@ -518,7 +527,7 @@ python /shared/conda/shared/bin/quast \
 
 # Deactivate conda environment
 conda deactivate
-#----------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 
 ##Quast final
 
@@ -531,8 +540,8 @@ conda deactivate
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=24:00:00
-#SBATCH --output=/shared/home/mbxjk6/slurm-quast-%x-%j.out
-#SBATCH --error=/shared/home/mbxjk6/slurm-quast-%x-%j.err
+#SBATCH --output=/shared/home/mbxjk6/slurm-quast-%x-%j.out                   #replace "mbxjk6" with your username
+#SBATCH --error=/shared/home/mbxjk6/slurm-quast-%x-%j.err                   #replace "mbxjk6" with your username
 
 
 # Activate conda environment with QUAST installed
@@ -557,9 +566,11 @@ python /shared/conda/shared/bin/quast -o /workhere/students_2023/group6/quast_re
 
 # Deactivate conda environment
 conda deactivate
-#----------------------------------------------------------------------------------------#
 
+#Expected output: Report Files: QUAST generates several important output files, including:report.txt (text summary of the statistics),report.tsv (tab-separated version, useful for downstream analysis), report.pdf (visual report containing plots and graphs), contigs_reports/ (detailed per-contig reports), aligned_stats/ (statistics on the alignment against a reference, if provided), Graphical Outputs: Depending on the flags and options set, QUAST can produce several plots, such as: Assembly histograms, GC content plots, Nx/Lx curves, Comprehensive Metrics: Key metrics provided by QUAST include: N50 and L50: Measures that help to understand the contiguity of the assembly. Total Length: Total size of all contigs, which can be compared against the expected genome size. Number of Contigs: Total number of sequences in the assembly. Number of Misassemblies: Errors in assembly as compared to the reference. Quality Scores: For mismatches, indels, and other errors relative to the reference. 
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 ##Busco (for analysis)
+The scripts written are to perform BUSCO (Benchmarking Universal Single-Copy Orthologs) analysis on genomic assemblies. These analyses are crucial for evaluating the quality of these assemblies by checking the completeness in terms of expected conserved orthologous genes. The scripts are organized for hybrid assemblies (both successful and failed), short-read assemblies, long-read assemblies, and assemblies got from Minimap2 alignments.
 
 #hybrid assemblies 
 
@@ -571,8 +582,8 @@ conda deactivate
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=24:00:00
-#SBATCH --output=/shared/home/payya4/slurm-busco-%x-%j.out
-#SBATCH --error=/shared/home/payya4/slurm-busco-%x-%j.err
+#SBATCH --output=/shared/home/payya4/slurm-busco-%x-%j.out                  #replace "payya4" with your username
+#SBATCH --error=/shared/home/payya4/slurm-busco-%x-%j.err                  #replace "payya4" with your username
 
 # Activate conda environment with BUSCO installed
 source $HOME/.bash_profile
@@ -589,7 +600,7 @@ busco \
 # Deactivate conda environment
 conda deactivate
 
-#----------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 
 ##Busco analysis
 
@@ -601,8 +612,8 @@ conda deactivate
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=24:00:00
-#SBATCH --output=/shared/home/payya4/slurm-busco-%x-%j.out
-#SBATCH --error=/shared/home/payya4/slurm-busco-%x-%j.err
+#SBATCH --output=/shared/home/payya4/slurm-busco-%x-%j.out                  #replace "payya4" with your username
+#SBATCH --error=/shared/home/payya4/slurm-busco-%x-%j.err                  #replace "payya4" with your username
 
 # Activate conda environment with BUSCO installed
 source $HOME/.bash_profile
@@ -634,12 +645,12 @@ busco \
 
 # Deactivate conda environment
 conda deactivate
-#----------------------------------------------------------------------------------------#
 
+#Expected output: short_summary.txt: A concise summary of the analysis, providing quick insights into the quality of the assembly in terms of gene content completeness. full_table.tsv: A detailed list of each BUSCO assessment, showing which specific genes were found complete, fragmented, or missing. missing_busco_list.tsv and duplicated_busco_list.tsv: Lists of missing and duplicated genes, if any. Graphical outputs: Often, BUSCO will generate plots that visually represent the completeness of the assembly, which are helpful for presentations or reports.
 
-
-#----------------------------------------------------------------------------------------#
-#new reads
+#------------------------------------------------------------------------------------------------------------------------------------------------#
+# We got new set of samples of genomes. We repeated same procedure with these samples. The additional thing added were flye, prokka and genovi.
+#new reads (barcodes)
 
 barcode 01 and 02
 #!/bin/bash
@@ -650,8 +661,8 @@ barcode 01 and 02
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=8g
 #SBATCH --time=02:00:00
-#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out
-#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err
+#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out                  #replace "mbxjk6" with your username
+#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err                  #replace "mbxjk6" with your username
 
 
 
@@ -679,7 +690,7 @@ NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode02_/*
 #deactivte conda
 conda deactivate
 
-#----------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 
 barcode 06
 
@@ -692,8 +703,8 @@ barcode 06
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=8g
 #SBATCH --time=02:00:00
-#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out	  #enter your username here
-#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
+#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out	   #replace "payya4" with your username
+#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err         #replace "payya4" with your username
 
 source $HOME/.bash_profile
 
@@ -709,7 +720,7 @@ NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode06/* 
 #deactivte conda env
 conda deactivate
 
-#----------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 #barcode 09
 
 #!/bin/bash
@@ -721,8 +732,9 @@ conda deactivate
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=8g
 #SBATCH --time=02:00:00
-#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out	  #enter your username here
-#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
+#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out	    #replace "payya4" with your username
+#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err        #replace "payya4" with your username
+
 
 source $HOME/.bash_profile
 
@@ -738,7 +750,7 @@ NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode09/* 
 #deactivte conda env
 conda deactivate
 
-#----------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 #barcode 10
 
 #!/bin/bash
@@ -750,8 +762,9 @@ conda deactivate
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=8g
 #SBATCH --time=02:00:00
-#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out	  #enter your username here
-#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err
+#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out	   #replace "payya4" with your username
+#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err       #replace "payya4" with your username
+
 
 source $HOME/.bash_profile
 
@@ -767,7 +780,7 @@ NanoPlot --fastq /workhere/students_2023/group6/new_reads/raw_reads/barcode10/* 
 #deactivte conda env
 conda deactivate
 
-#----------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 ##Merging reads
 
 #!/bin/bash
@@ -778,8 +791,8 @@ conda deactivate
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=8g
 #SBATCH --time=02:00:00
-#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out    #enter your username here
-#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err     #enter your username here
+#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out     #replace "mbxjk6" with your username
+#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err     # #replace "mbxjk6" with your username
 
 
 # Merge barcode01 reads 
@@ -805,7 +818,7 @@ cat /workhere/students_2023/group6/raw_reads/raw_reads/barcode09/* > \
 cat /workhere/students_2023/group6/raw_reads/raw_reads/barcode10/* /workhere/students_2023/group6/fastq_fails_long/* > \
 /workhere/students_2023/group6/merged_barcode10_pass.fastq.gz
 
-#----#
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 
 Barcodes reads assembly with unicycler
 
@@ -818,8 +831,8 @@ Barcodes reads assembly with unicycler
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=48:00:00
-#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out
-#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err
+#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out         #replace "mbxjk6" with your username
+#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err         #replace "mbxjk6" with your username
 
 
 echo "the job name is: $JOB_NAME_ID"
@@ -854,7 +867,7 @@ conda deactivate
 #run from home directory
 # sbatch /workhere/students_2023/group6/new_reads/unicycler.sh
 
-#----#
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 
 #!/bin/bash
 
@@ -865,9 +878,9 @@ conda deactivate
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=48:00:00
-#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out
-#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err
-
+#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out                   #replace "mbxjk6" with your username         
+#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err                   #replace "mbxjk6" with your username
+                  
 
 echo "the job name is: $JOB_NAME_ID"
 
@@ -877,22 +890,22 @@ conda activate /shared/conda/shared
 
 
 
-# Assembly with Unicycler barcode09 (pass)
+# Assembly with Unicycler barcode01 (pass)
 #unicycler -t 8 \
 #-l /workhere/students_2023/group6/new_reads/merged_barcode01.fastq.gz \
 #-o /workhere/students_2023/group6/new_reads/unicycler_results/barcode01_pass
 
-# Assembly with Unicycler barcode10 (pass)
+# Assembly with Unicycler barcode02 (pass)
 unicycler -t 8 \
 -l /workhere/students_2023/group6/new_reads/merged_barcode02.fastq.gz \
--o /workhere/students_2023/group6/new_reads/unicycler_results/barcode01_pass
+-o /workhere/students_2023/group6/new_reads/unicycler_results/barcode02_pass
 
 
 
 # Deactivate conda environment
 conda deactivate
-#---#
-
+#------------------------------------------------------------------------------------------------------------------------------------------------#
+#QUAST Analysis on new reads (barcode)
 #!/bin/bash
 
 
@@ -902,8 +915,8 @@ conda deactivate
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=24:00:00
-#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out
-#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err
+#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out         #replace "payya4" with your username         
+#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err          #replace "payya4" with your username     
 
 
 # Activate conda environment with QUAST installed
@@ -925,7 +938,7 @@ python /shared/conda/shared/bin/quast \
 # Deactivate conda environment
 conda deactivate
 
-#---#
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 #!/bin/bash
 
 
@@ -935,8 +948,8 @@ conda deactivate
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=24:00:00
-#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out
-#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err
+#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out                   #replace "payya4" with your username         
+#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err                   #replace "payya4" with your username         
 
 
 # Activate conda environment with QUAST installed
@@ -958,7 +971,8 @@ python /shared/conda/shared/bin/quast \
 # Deactivate conda environment
 conda deactivate
 
-#-----#
+#------------------------------------------------------------------------------------------------------------------------------------------------#
+Busco Analysis for new reads (barcode)
 #!/bin/bash
 
 #SBATCH --job-name=busco_new
@@ -967,8 +981,8 @@ conda deactivate
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=24:00:00
-#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out
-#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err
+#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out                   #replace "payya4" with your username
+#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err                   #replace "payya4" with your username
 
 # Activate conda environment with BUSCO installed
 source $HOME/.bash_profile
@@ -1006,9 +1020,10 @@ busco \
 # Deactivate conda environment
 conda deactivate
 
-#----#
+#------------------------------------------------------------------------------------------------------------------------------------------------#
+#The scripts wriiten is for genome assembly using Flye, which is a de novo assembler for single-molecule sequencing reads from technologies Nanopore and PacBio. Flye specializes in creating high-quality assemblies from long reads, making it particularly suitable for complex genome projects. 
 
-flye 1-2
+#for sample 01 and 02
 
 #!/bin/bash
 
@@ -1018,8 +1033,8 @@ flye 1-2
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=24:00:00
-#SBATCH --output=/shared/home/mbxjk6/slurm-quast-%x-%j.out
-#SBATCH --error=/shared/home/mbxjk6/slurm-quast-%x-%j.err
+#SBATCH --output=/shared/home/mbxjk6/slurm-quast-%x-%j.out                  #replace "mbxjk6" with your username
+#SBATCH --error=/shared/home/mbxjk6/slurm-quast-%x-%j.err                  #replace "mbxjk6" with your username
 
 
 echo "the job name is: $JOB_NAME_ID"
@@ -1044,8 +1059,8 @@ conda deactivate
 
 #run from home directory
 #sbatch /workhere/students_2023/group6/new_reads/flye01_02
-
-#flye b9
+#------------------------------------------------------------------------------------------------------------------------------------------------#
+#for sample 09
 
 #!/bin/bash
 
@@ -1055,8 +1070,8 @@ conda deactivate
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=24:00:00
-#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out
-#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err
+#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out                  #replace "payya4" with your username
+#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err                  #replace "payya4" with your username
 
 # Activate conda environment
 source $HOME/.bash_profile
@@ -1070,10 +1085,10 @@ flye --nano-raw /workhere/students_2023/group6/new_reads/merged_barcode09_pass.f
 #deactivte conda env
 conda deactivate
 
-
-#----#
-
-prokka 
+#expected outcomes: Assembly Directories: Each specified output directory (flye_result/barcode_xx) will contain the Flye assembly outputs, which include: assembly.fasta: The primary output containing the assembled sequences. assembly_info.txt: Provides details about the contigs, including their lengths and whether they are circular. flye.log: Contains logs of the assembly process, useful for debugging and performance assessment.
+#------------------------------------------------------------------------------------------------------------------------------------------------#
+#The script written is for Prokka, a rapid prokaryotic genome annotation tool, to annotate genomic assemblies associated with different barcodes.Used specifically for barcode06, barcode10, and barcode09. 
+ 
 
 #!/bin/bash
 
@@ -1083,8 +1098,8 @@ prokka
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=24:00:00
-#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out
-#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err
+#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out                #replace "payya4" with your username
+#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err                  #replace "payya4" with your username
 
 # Activate conda environment
 source $HOME/.bash_profile
@@ -1117,9 +1132,10 @@ prokka --outdir /workhere/students_2023/group6/new_reads/prokka_results/barcode0
 #deactivte conda env
 conda deactivate
 
+#expected outcome: For each barcode, Prokka will generate a set of files in the specified output directories, including: .gff: This file contains the Genome Feature Format annotations, including CDS, rRNA, tRNA, and other genomic elements, .gbk (GenBank file): A detailed annotation file that includes the genome sequence and its features in a format suitable for submission to GenBank, .fna: Nucleotide fasta of the annotated features, .faa: Protein fasta files of the CDS sequences, .ffn: Nucleotide fasta files of the CDS sequences, .sqn: An NCBI submission format file, .log: Contains log information from the annotation process.
 
-#----#
-Genovi
+#------------------------------------------------------------------------------------------------------------------------------------------------#
+#The script written is to run Genovi, a visualization tool for genome assemblies and annotations. Genovi converts genome annotation files, typically in GenBank format, into visual representations that help researchers quickly assess the structure and content of their assemblies. This particular script runs Genovi on Prokka-generated GenBank files for different barcoded samples.
 
 #!/bin/bash
 
@@ -1161,4 +1177,5 @@ genovi \
 # Deactivate conda environment
 conda deactivate
 
-#-------#
+#expected outcomes: Visual Reports: Genovi generates HTML-based reports that visually represent the genomic annotations. These reports are interactive and allow users to explore various genomic features, Output Directories: Each barcode's results are stored in their respective directories (genovi_6_result, genovi_9_result, genovi_10_result).
+#------------------------------------------------------------------------------------------------------------------------------------------------#
