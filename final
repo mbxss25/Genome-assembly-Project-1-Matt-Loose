@@ -1211,3 +1211,10 @@ conda deactivate
 
 #expected outcomes: Visual Reports: Genovi generates HTML-based reports that visually represent the genomic annotations. These reports are interactive and allow users to explore various genomic features, Output Directories: Each barcode's results are stored in their respective directories (genovi_6_result, genovi_9_result, genovi_10_result).
 #------------------------------------------------------------------------------------------------------------------------------------------------#
+#To see the results code following on terminal
+
+python3 -m http.server 12121
+
+#on web input ip of HPC, with server. e.g http://10.102.161.12:12121
+
+#------------------------------------------------------------------------------------------------------------------------------------------------#
