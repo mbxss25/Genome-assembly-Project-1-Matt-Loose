@@ -792,4 +792,360 @@ cat /workhere/students_2023/group6/raw_reads/raw_reads/barcode09/* > \
 cat /workhere/students_2023/group6/raw_reads/raw_reads/barcode10/* /workhere/students_2023/group6/fastq_fails_long/* > \
 /workhere/students_2023/group6/merged_barcode10_pass.fastq.gz
 
+#----#
 
+Barcodes reads assembly with unicycler
+
+#!/bin/bash
+
+
+#SBATCH --job-name=unicycler_barcodes_pass_reads
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=8
+#SBATCH --mem=30G
+#SBATCH --time=48:00:00
+#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out
+#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err
+
+
+echo "the job name is: $JOB_NAME_ID"
+
+# Activate conda environment
+source $HOME/.bash_profile
+conda activate /shared/conda/shared
+
+
+
+# Assembly with Unicycler barcode09 (pass)
+unicycler -t 8 \
+-l /workhere/students_2023/group6/new_reads/merged_barcode09_pass.fastq.gz \
+-o /workhere/students_2023/group6/new_reads/unicycler_results/barcode09_pass
+
+# Assembly with Unicycler barcode10 (pass)
+unicycler -t 8 \
+-l /workhere/students_2023/group6/new_reads/merged_barcode10_pass.fastq.gz \
+-o /workhere/students_2023/group6/new_reads/unicycler_results/barcode10_pass
+
+# Assembly with Unicycler barcode06 (pass)
+unicycler -t 8 \
+-l /workhere/students_2023/group6/new_reads/merged_barcode06_pass.fastq.gz \
+-o /workhere/students_2023/group6/new_reads/unicycler_results/barcode06_pass
+
+
+
+# Deactivate conda environment
+conda deactivate
+
+
+#run from home directory
+# sbatch /workhere/students_2023/group6/new_reads/unicycler.sh
+
+#----#
+
+#!/bin/bash
+
+
+#SBATCH --job-name=unicycler_02
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=8
+#SBATCH --mem=30G
+#SBATCH --time=48:00:00
+#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out
+#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err
+
+
+echo "the job name is: $JOB_NAME_ID"
+
+# Activate conda environment
+source $HOME/.bash_profile
+conda activate /shared/conda/shared
+
+
+
+# Assembly with Unicycler barcode09 (pass)
+#unicycler -t 8 \
+#-l /workhere/students_2023/group6/new_reads/merged_barcode01.fastq.gz \
+#-o /workhere/students_2023/group6/new_reads/unicycler_results/barcode01_pass
+
+# Assembly with Unicycler barcode10 (pass)
+unicycler -t 8 \
+-l /workhere/students_2023/group6/new_reads/merged_barcode02.fastq.gz \
+-o /workhere/students_2023/group6/new_reads/unicycler_results/barcode01_pass
+
+
+
+# Deactivate conda environment
+conda deactivate
+#---#
+
+#!/bin/bash
+
+
+#SBATCH --job-name=quast_6_10
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=8
+#SBATCH --mem=30G
+#SBATCH --time=24:00:00
+#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out
+#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err
+
+
+# Activate conda environment with QUAST installed
+source $HOME/.bash_profile
+conda activate /shared/conda/shared
+
+
+
+# QUAST (barcode 06, barcode10)
+python /shared/conda/shared/bin/quast \
+-o /workhere/students_2023/group6/new_reads/quast_results/quast_6_10 \
+-r /workhere/students_2023/group6/new_reads/ncbi_dataset_2/ncbi_dataset/data/GCF_005406325.1/GCF_005406325.1_ASM540632v1_genomic.fna \
+-g /workhere/students_2023/group6/new_reads/ncbi_dataset_2/ncbi_dataset/data/GCF_005406325.1/genomic.gff \
+/workhere/students_2023/group6/new_reads/unicycler_results/barcode06_pass/assembly.fasta \
+/workhere/students_2023/group6/new_reads/unicycler_results/barcode10_pass/assembly.fasta \
+
+
+
+# Deactivate conda environment
+conda deactivate
+
+#---#
+#!/bin/bash
+
+
+#SBATCH --job-name=quast_9
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=8
+#SBATCH --mem=30G
+#SBATCH --time=24:00:00
+#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out
+#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err
+
+
+# Activate conda environment with QUAST installed
+source $HOME/.bash_profile
+conda activate /shared/conda/shared
+
+
+
+# QUAST (barcode 09)
+python /shared/conda/shared/bin/quast \
+-o /workhere/students_2023/group6/new_reads/quast_results/quast_9 \
+-r /workhere/students_2023/group6/new_reads/Haloferax_volcanii/GCF_000025685.1/GCF_000025685.1_ASM2568v1_genomic.fna \
+-g /workhere/students_2023/group6/new_reads/Haloferax_volcanii/GCF_000025685.1/genomic.gff \
+/workhere/students_2023/group6/new_reads/flye_result/barcode09_pass/assembly.fasta \
+
+
+
+
+# Deactivate conda environment
+conda deactivate
+
+#-----#
+#!/bin/bash
+
+#SBATCH --job-name=busco_new
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=8
+#SBATCH --mem=30G
+#SBATCH --time=24:00:00
+#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out
+#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err
+
+# Activate conda environment with BUSCO installed
+source $HOME/.bash_profile
+conda activate /shared/conda/busco
+
+# BUSCO for b06
+busco \
+-i /workhere/students_2023/group6/new_reads/unicycler_results/barcode06_pass/assembly.fasta \
+-o /workhere/students_2023/group6/new_reads/busco_results/barcode06_busco \
+-l haloferacales_odb10 \
+-m genome
+
+
+
+
+# BUSCO for b10
+busco \
+-i /workhere/students_2023/group6/new_reads/unicycler_results/barcode10_pass/assembly.fasta \
+-o /workhere/students_2023/group6/new_reads/busco_results/barcode10_busco \
+-l haloferacales_odb10 \
+-m genome
+
+
+
+# BUSCO for b09
+busco \
+-i /workhere/students_2023/group6/new_reads/flye_result/barcode09_pass/assembly.fasta \
+-o /workhere/students_2023/group6/new_reads/busco_results/barcode09_busco \
+-l haloferacales_odb10 \
+-m genome
+
+
+
+
+# Deactivate conda environment
+conda deactivate
+
+#----#
+
+flye 1-2
+
+#!/bin/bash
+
+#SBATCH --job-name=flye_01_02
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=8
+#SBATCH --mem=30G
+#SBATCH --time=24:00:00
+#SBATCH --output=/shared/home/mbxjk6/slurm-quast-%x-%j.out
+#SBATCH --error=/shared/home/mbxjk6/slurm-quast-%x-%j.err
+
+
+echo "the job name is: $JOB_NAME_ID"
+
+# Activate conda environment
+source $HOME/.bash_profile
+conda activate /shared/conda/shared
+
+
+#flye assembly for barcode 01
+flye --nano-raw /workhere/students_2023/group6/new_reads/merged_barcode01.fastq.gz \
+--out-dir /workhere/students_2023/group6/new_reads/flye_result/barcode_01 \
+--threads 8
+
+flye --nano-raw /workhere/students_2023/group6/new_reads/merged_barcode02.fastq.gz \
+--out-dir /workhere/students_2023/group6/new_reads/flye_result/barcode_02 \
+--threads 8
+
+
+#deactivte conda env
+conda deactivate
+
+#run from home directory
+#sbatch /workhere/students_2023/group6/new_reads/flye01_02
+
+#flye b9
+
+#!/bin/bash
+
+#SBATCH --job-name=flye_b9
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=8
+#SBATCH --mem=30G
+#SBATCH --time=24:00:00
+#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out
+#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err
+
+# Activate conda environment
+source $HOME/.bash_profile
+conda activate /shared/conda/shared
+
+#flye for b9
+flye --nano-raw /workhere/students_2023/group6/new_reads/merged_barcode09_pass.fastq.gz \
+--out-dir /workhere/students_2023/group6/new_reads/flye_result/barcode09_pass \
+--threads 8
+
+#deactivte conda env
+conda deactivate
+
+
+#----#
+
+prokka 
+
+#!/bin/bash
+
+#SBATCH --job-name=prokka_barcodes
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=8
+#SBATCH --mem=30G
+#SBATCH --time=24:00:00
+#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out
+#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err
+
+# Activate conda environment
+source $HOME/.bash_profile
+conda activate /shared/conda/shared
+
+
+#barcode 06
+prokka --outdir /workhere/students_2023/group6/new_reads/prokka_results/barcode06_prokka \
+--prefix prokka_b6 \
+--kingdom archaea \
+--genus haloferax \
+/workhere/students_2023/group6/new_reads/unicycler_results/barcode06_pass/assembly.fasta
+
+
+#barcode 10
+prokka --outdir /workhere/students_2023/group6/new_reads/prokka_results/barcode10_prokka \
+--prefix prokka_b10 \
+--kingdom archaea \
+--genus haloferax \
+/workhere/students_2023/group6/new_reads/unicycler_results/barcode10_pass/assembly.fasta
+
+
+#barcode 09
+prokka --outdir /workhere/students_2023/group6/new_reads/prokka_results/barcode09_prokka \
+--prefix prokka_b9 \
+--kingdom archaea \
+--genus haloferax \
+/workhere/students_2023/group6/new_reads/flye_result/barcode09_pass/assembly.fasta
+
+#deactivte conda env
+conda deactivate
+
+
+#----#
+Genovi
+
+#!/bin/bash
+
+#SBATCH --job-name=genovi_all
+#SBATCH --partition=hpc
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=8
+#SBATCH --mem=30G
+#SBATCH --time=24:00:00
+#SBATCH --output=/shared/home/payya4/slurm-quast-%x-%j.out
+#SBATCH --error=/shared/home/payya4/slurm-quast-%x-%j.err
+
+# Activate conda environment
+source $HOME/.bash_profile
+conda activate /shared/conda/genovi
+
+
+# Change to the directory where genovi results should be written
+cd /workhere/students_2023/group6/new_reads/genovi_results
+
+# genovi for barcode06
+genovi \
+-i /workhere/students_2023/group6/new_reads/prokka_results/barcode06_prokka/prokka_b6.gbk \
+-o genovi_6_result \
+-s complete
+
+# genovi for barcode09
+genovi \
+-i /workhere/students_2023/group6/new_reads/prokka_results/barcode09_prokka/prokka_b9.gbk \
+-o genovi_9_result \
+-s complete
+
+# genovi for barcode10
+genovi \
+-i /workhere/students_2023/group6/new_reads/prokka_results/barcode10_prokka/prokka_b10.gbk \
+-o genovi_10_result \
+-s complete
+
+# Deactivate conda environment
+conda deactivate
+
+#-------#
