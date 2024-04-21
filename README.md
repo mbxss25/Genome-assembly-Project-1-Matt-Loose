@@ -1,25 +1,30 @@
-# Project-1
+#Project1 - group 6 - Sequence assemblies and quality control - Latt Loose. 
 
-Introduction: Group generated the strains of micro-organisms, however various genetic changes to the genomes were done but location of the changes were unknown. The long read data was mostly present. In order to know the changes assemblies were required. This respository consist of the codes for generating the assemblies from the long and short reads, along with the quality analysis on them.
+#Introduction: Group generated the strains of micro-organisms, however various genetic changes to the genomes were done but location of the changes were unknown. The long read data was mostly present. In order to know the changes assemblies were required. This respository consist of the codes for generating the assemblies from the long and short reads, along with the quality analysis on them.
 
-Code are for generating:
+#Code are for generating:
 -Short read assembly
 -long read assembly
 -A hybrid short and long read assembly
 
-Following codes for Quality control of assemblies-
+#Following codes for Quality control of assemblies-
 BUSCO
-GENOVI
-#————————————————————————————————————————--------------------------------------------------------------------------------#
-This repository is for the samples allocated to group 6. i.e Group 6-sample 6 - illuminate S6 - Nanopore Barcode 06.
+QUAST
 
-The data is provided in HPC at-
+#Following codes for visualization and annotation of assemblies.
+#————————————————————————————————————————--------------------------------------------------------------------------------#
+#This repository is for the samples allocated to group 6. i.e Group 6-sample 6 - illuminate S6 - Nanopore Barcode 06.
+
+#The data is provided in HPC at-
 
 /workhere/students_2023/Matt_resources
 
 -subfolders 
 short reads (illumina data)
 Long reads (Nanoporedata)
+
+#most important things before running the SLURM script make sure the script is executable using "chmod +x script_name.sh"
+
 #——————————————————————————————————————————————————-------------------------------------------------------------------------#
 #installation and activation of nanoplot in conda enviroment
 conda create –n nanoplot_test –c bioconda nanoplot
@@ -33,12 +38,12 @@ conda create –n nanoplot_test –c bioconda nanoplot
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=8g
 #SBATCH --time=02:00:00
-#SBATCH --output=/shared/home/mbxss25/slurm-%x-%j.out  #with your username
+#SBATCH --output=/shared/home/mbxss25/slurm-%x-%j.out                 #replace "mbxss25 "with your username
 
 source $HOME/.bash_profile
 
 #activate conda environment
-conda activate /shared/conda/shared
+conda activate /shared/conda/shared                                   #path of the conda environment located
 
 # your command
 NanoPlot
@@ -61,30 +66,36 @@ conda deactivate
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=8g
 #SBATCH --time=02:00:00
-#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out    # Replace 'payya4' with your username
-#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err     # Replace 'payya4' with your username
+#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out                                   # Replace 'payya4' with your username
+#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err                                    # Replace 'payya4' with your username
 
 source $HOME/.bash_profile
 
 #activate conda env
-conda activate /shared/conda/shared
+conda activate /shared/conda/shared                                                    #path of the conda environment located
 
 #run nanoplot on short reads (R1)
-NanoPlot --fastq /workhere/students_2023/group6/illumina_short/R1_files/*.fastq.gz \
+NanoPlot --fastq /workhere/students_2023/group6/illumina_short/R1_files/*.fastq.gz \   #path of the files located
          --threads 8 \
          --plots kde dot \
-         -o /workhere/students_2023/group6/nano_qc_R1_short
+         -o /workhere/students_2023/group6/nano_qc_R1_short                            #path of the location where results wanted.
 
 #run nanoplot on short reads (R2)
-NanoPlot --fastq /workhere/students_2023/group6/illumina_short/R2_files/*.fastq.gz \
+NanoPlot --fastq /workhere/students_2023/group6/illumina_short/R2_files/*.fastq.gz \   #path of the files located
          --threads 8 \
          --plots kde dot \
-         -o /workhere/students_2023/group6/nano_qc_R2_short
+         -o /workhere/students_2023/group6/nano_qc_R2_short                             #path of the location where results wanted.
 
 #deactivate conda env
 conda deactivate
 
-#The expected result running this code is 
+#The expected result running this code is to generates quality control plots for these reads, which provides insights into read length distribution, quality scores, and other relevant metrics which are useful for assessing the quality of sequencing data.
+#To see the results code following on terminal
+
+python3 -m http.server 12121
+
+#on web input ip of HPC, with server. e.g http://10.102.161.12:12121
+
 #----------------------------------------------------------------------------------------#
 
 #pass long reads
@@ -98,8 +109,8 @@ conda deactivate
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=8g
 #SBATCH --time=02:00:00
-#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out	   #enter your username here
-#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err      #enter your username here
+#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out                              #replace "mbxjk6" with your username
+#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err                               #replace "mbxjk6" with your username
 
 source $HOME/.bash_profile
 
@@ -115,7 +126,7 @@ NanoPlot --fastq /workhere/students_2023/group6/nanopore_long/* \
 #deactivte conda env
 conda deactivate
 
-#The expected result running this code is 
+
 #----------------------------------------------------------------------------------------#
 
 #fails long reads
@@ -128,8 +139,8 @@ conda deactivate
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=8g
 #SBATCH --time=02:00:00
-#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out    #enter your username here
-#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err     #enter your username here
+#SBATCH --output=/shared/home/payya4/slurm-%x-%j.out     #replace "payya4" with your username
+#SBATCH --error=/shared/home/payya4/slurm-%x-%j.err      #replace "payya4" with your username
 
 source $HOME/.bash_profile
 
@@ -145,10 +156,9 @@ NanoPlot --fastq /workhere/students_2023/group6/fastq_fails_long/* \
 #deactivate conda env
 conda deactivate
 
-#The expected result running this code is 
 #----------------------------------------------------------------------------------------#
-
 ##Merging reads
+Merging reads is the best practice in reproducibility, it is good for quality control and process steps, such as trimming seq and filtering low-quality reads, work on a single file may simplify the setup of pipelines, espscially when using tools that are not designed to handle paired files separately or concurrently.
 
 #!/bin/bash
 
@@ -158,14 +168,14 @@ conda deactivate
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=8g
 #SBATCH --time=02:00:00
-#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out    #enter your username here
-#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err
+#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out   #replace "mbxjk6" with your username
+#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err    #replace "mbxjk6" with your username
 
 
 
 # Merge long reads (pass)
-cat /workhere/students_2023/group6/nanopore_long/* > \
-/workhere/students_2023/group6/merged_long_reads_pass.fastq.gz
+cat /workhere/students_2023/group6/nanopore_long/* > \                                #path of the files located
+/workhere/students_2023/group6/merged_long_reads_pass.fastq.gz                        #location where output needed.
 
 
 # Merge long reads (fail)
@@ -187,9 +197,10 @@ cat /workhere/students_2023/group6/illumina_short/R1_files/* > \
 cat /workhere/students_2023/group6/illumina_short/R2_files/* > \
 /workhere/students_2023/group6/merged_R2_short.fastq.gz
 
-#----------------------------------------------------------------------------------------#
-
+#the expected output is to merge the multiple sequencing read files provided into a single files for easier management and subsequent analysis
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 ##Minimap (for long assembly)
+This script is written to perform long read assembly using Minimap2, followed by assembly construction with Miniasm, and conversion of fil format into fasta file.
 
 #long reads pass
 
@@ -201,8 +212,8 @@ cat /workhere/students_2023/group6/illumina_short/R2_files/* > \
 #SBATCH --ntasks-per-node=8
 #SBATCH --mem=30G
 #SBATCH --time=24:00:00
-#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out     #enter your username here
-#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err
+#SBATCH --output=/shared/home/mbxjk6/slurm-%x-%j.out             #replace "mbxjk6" with your username
+#SBATCH --error=/shared/home/mbxjk6/slurm-%x-%j.err              #replace "mbxjk6" with your username
 
 
 source $HOME/.bash_profile
@@ -212,8 +223,8 @@ source $HOME/.bash_profile
 conda activate /shared/conda/shared
 
 # Assembly with minimap2
-minimap2 -t 8 -x ava-ont /workhere/students_2023/group6/merged_long_reads_pass.fastq.gz \
-| gzip -1 > /workhere/students_2023/group6/minimap_long_pass/minimap_long_pass.paf
+minimap2 -t 8 -x ava-ont /workhere/students_2023/group6/merged_long_reads_pass.fastq.gz \                  #path of your files located
+| gzip -1 > /workhere/students_2023/group6/minimap_long_pass/minimap_long_pass.paf                         #path for output
 
 # Miniasm
 #miniasm -f \
@@ -225,7 +236,7 @@ minimap2 -t 8 -x ava-ont /workhere/students_2023/group6/merged_long_reads_pass.f
 
 # Deactivate conda environment
 conda deactivate
-#----------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 #reads pass
 
 #!/bin/bash
@@ -258,7 +269,7 @@ awk '/^S/{print ">"$2"\n"$3}' /workhere/students_2023/group6/minimap_results/min
 
 # Deactivate conda environment
 conda deactivate
-#----------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 
 #minimap pass and fail
 
@@ -293,7 +304,9 @@ awk '/^S/{print ">"$2"\n"$3}' /workhere/students_2023/group6/minimap_results/min
 
 # Deactivate conda environment
 conda deactivate
-#----------------------------------------------------------------------------------------#
+
+#The expected put of these codes are to give Compressed PAF files containing read overlap information, GFA files describing the assembly graphs, FASTA files containing the assembled sequences ready for downstream genomic analysis tasks such as annotation, variant detection, or comparative genomics.
+#------------------------------------------------------------------------------------------------------------------------------------------------#
 #Unicycler short reads (merged R1 and R2)
 
 #!/bin/bash
